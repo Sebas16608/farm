@@ -92,6 +92,12 @@ DATABASES = {
     }
 }
 
+# FORZAR IPv4
+import socket
+socket.getaddrinfo = lambda host, port, family=0, type=0, proto=0, flags=0: [
+    (socket.AF_INET, socket.SOCK_STREAM, 6, '', (host, port))
+]
+
 import os
 RENDER_EXTERNAL_HOSTNAME = os.getenv('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
