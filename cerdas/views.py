@@ -9,7 +9,7 @@ from .models import Cerda, ControlCelo
 def notexist():
     return {"error": "Los datos no fueron encontrados"}
 class CerdaView(APIView):
-    def get(self, pk=None):
+    def get(self, request, pk=None):
         if pk:
             try:
                 cerda = Cerda.objects.get(pk=pk)
@@ -29,4 +29,25 @@ class CerdaView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+    def put(self, request, pk):
+        try:
+            cerda = Cerda.objects.get(pk=pk)
+        except Cerda.DoesNotExist:
+            return Response(notexist(), status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = CerdaSerializer(cerda, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+    def delete(self, request, pk):
+        try:
+            cerda = Cerda.objects.get(pk=pk)
+        except Cerda.DoesNotExist:
+            return Response(notexist(), status=status.HTTP_404_NOT_FOUND)
+        
+        cerda.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    
+
