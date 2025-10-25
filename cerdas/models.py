@@ -10,8 +10,7 @@ class Cerda(models.Model):
         ('servida', 'Servida'),
     ]
     
-    nombre = models.CharField(max_length=100)
-    numero_arete = models.CharField(max_length=50, unique=True)
+    codigo = models.CharField(max_length=50, unique=True)
     fecha_nacimiento = models.DateField()
     estado = models.CharField(max_length=20, choices=ESTADO_CHOICES, default='vacía')
     activa = models.BooleanField(default=True)
@@ -19,10 +18,10 @@ class Cerda(models.Model):
     fecha_actualizacion = models.DateTimeField(auto_now=True)
     
     class Meta:
-        ordering = ['nombre']
+        ordering = ['codigo']
 
     def __str__(self):
-        return f"{self.nombre} ({self.numero_arete})"
+        return f"{self.codigo}"
 
 class ControlCelo(models.Model):
     cerda = models.ForeignKey(Cerda, on_delete=models.CASCADE, related_name='controles_celo')
