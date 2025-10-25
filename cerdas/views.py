@@ -50,4 +50,18 @@ class CerdaView(APIView):
         cerda.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
-
+# API del control del celo
+class CeloView(APIView):
+    def get(self, request, pk=None):
+        if pk:
+            try:
+                celo = ControlCelo.objects.get(pk=pk)
+                serializer = CeloSerializer(celo)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            except ControlCelo.DoesNotExist:
+                return Response(notexist(), status=status.HTTP_404_NOT_FOUND)
+        else:
+            celo = ControlCelo.objects.all()
+            serializer = CeloSerializer(celo, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+    
