@@ -71,3 +71,14 @@ class CeloView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def put(self, request, pk):
+        try:
+            celo = ControlCelo.objects.get(pk=pk)
+        except ControlCelo.DoesNotExist:
+            return Response(notexist(), status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = CeloSerializer(celo, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
