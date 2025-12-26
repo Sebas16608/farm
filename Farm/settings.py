@@ -22,7 +22,7 @@ load_dotenv(BASE_DIR / ".env")
 SECRET_KEY = os.getenv("SECRET_KEY")
 DEBUG = os.getenv("DEBUG") == "True"
 
-ALLOWED_HOSTS = ["https://granja-la-cruz-backend.onrender.com/"]
+ALLOWED_HOSTS = ["granja-la-cruz-backend.onrender.com/"]
 
 # ------------------------------------------------------------------
 # APPLICATIONS
